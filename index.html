@@ -19,11 +19,27 @@
       var isAndroid = /android/.test(ua);
       var isiOS = /iphone|ipad|ipod/.test(ua);
       
-      if (isAndroid || isiOS) {
-        // Try to open app with product deep link
-        window.location = "blinkit://prn/x/prid/" + productId;
+      if (isAndroid) {
+        // Try Android app deep link formats
+        window.location = "grofers://product/" + productId;
         
-        // If app didn't open, go to website after 1.5 seconds
+        setTimeout(function() {
+          if (!appOpened) {
+            // Fallback: try another format
+            window.location = "blinkit://product/" + productId;
+            
+            setTimeout(function() {
+              if (!appOpened) {
+                // Final fallback: go to website
+                window.location = blinkitUrl;
+              }
+            }, 1000);
+          }
+        }, 1000);
+      } else if (isiOS) {
+        // Try iOS app deep link
+        window.location = "blinkit://product/" + productId;
+        
         setTimeout(function() {
           if (!appOpened) {
             window.location = blinkitUrl;
