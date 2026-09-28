@@ -3,11 +3,10 @@
 <head>
   <title>Opening Blinkit...</title>
   <script>
-    var productId = "692040";
-    var blinkitUrl = "https://blinkit.com/prn/x/prid/" + productId;
+    var productName = "Promeal Medley Treat Tortoise";
+    var blinkitUrl = "https://blinkit.com/prn/x/prid/692040";
     var appOpened = false;
     
-    // Detect if page goes hidden (means app opened)
     document.addEventListener('visibilitychange', function() {
       if (document.hidden) {
         appOpened = true;
@@ -20,25 +19,16 @@
       var isiOS = /iphone|ipad|ipod/.test(ua);
       
       if (isAndroid) {
-        // Try Android app deep link formats
-        window.location = "grofers://product/" + productId;
+        // Try search deep link
+        window.location = "blinkit://search?q=" + encodeURIComponent(productName);
         
         setTimeout(function() {
           if (!appOpened) {
-            // Fallback: try another format
-            window.location = "blinkit://product/" + productId;
-            
-            setTimeout(function() {
-              if (!appOpened) {
-                // Final fallback: go to website
-                window.location = blinkitUrl;
-              }
-            }, 1000);
+            window.location = blinkitUrl;
           }
-        }, 1000);
+        }, 1500);
       } else if (isiOS) {
-        // Try iOS app deep link
-        window.location = "blinkit://product/" + productId;
+        window.location = "blinkit://search?q=" + encodeURIComponent(productName);
         
         setTimeout(function() {
           if (!appOpened) {
@@ -46,7 +36,6 @@
           }
         }, 1500);
       } else {
-        // Desktop - go straight to website
         window.location = blinkitUrl;
       }
     }
