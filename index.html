@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Opening Blinkit...</title>
+  <script>
+    var productId = "692040";
+    var blinkitUrl = "https://blinkit.com/prn/x/prid/" + productId;
+    var appOpened = false;
+    
+    // Detect if page goes hidden (means app opened)
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        appOpened = true;
+      }
+    });
+    
+    function openBlinkit() {
+      var ua = navigator.userAgent.toLowerCase();
+      var isAndroid = /android/.test(ua);
+      var isiOS = /iphone|ipad|ipod/.test(ua);
+      
+      if (isAndroid || isiOS) {
+        // Try to open app with product deep link
+        window.location = "blinkit://prn/x/prid/" + productId;
+        
+        // If app didn't open, go to website after 1.5 seconds
+        setTimeout(function() {
+          if (!appOpened) {
+            window.location = blinkitUrl;
+          }
+        }, 1500);
+      } else {
+        // Desktop - go straight to website
+        window.location = blinkitUrl;
+      }
+    }
+    
+    openBlinkit();
+  </script>
+</head>
+<body>
+  <p>Opening Blinkit...</p>
+</body>
+</html>
