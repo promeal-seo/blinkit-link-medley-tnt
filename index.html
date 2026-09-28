@@ -3,47 +3,11 @@
 <head>
   <title>Opening Blinkit...</title>
   <script>
-    var productName = "Promeal Medley Treat Tortoise";
-    var blinkitUrl = "https://blinkit.com/prn/x/prid/692040";
-    var appOpened = false;
-    
-    document.addEventListener('visibilitychange', function() {
-      if (document.hidden) {
-        appOpened = true;
-      }
-    });
-    
-    function openBlinkit() {
-      var ua = navigator.userAgent.toLowerCase();
-      var isAndroid = /android/.test(ua);
-      var isiOS = /iphone|ipad|ipod/.test(ua);
-      
-      if (isAndroid) {
-        // Try search deep link
-        window.location = "blinkit://search?q=" + encodeURIComponent(productName);
-        
-        setTimeout(function() {
-          if (!appOpened) {
-            window.location = blinkitUrl;
-          }
-        }, 1500);
-      } else if (isiOS) {
-        window.location = "blinkit://search?q=" + encodeURIComponent(productName);
-        
-        setTimeout(function() {
-          if (!appOpened) {
-            window.location = blinkitUrl;
-          }
-        }, 1500);
-      } else {
-        window.location = blinkitUrl;
-      }
-    }
-    
-    openBlinkit();
+    // Direct to product URL - OS handles app detection
+    window.location = "https://blinkit.com/prn/x/prid/692040";
   </script>
 </head>
 <body>
-  <p>Opening Blinkit...</p>
+  <p>Opening...</p>
 </body>
 </html>
