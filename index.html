@@ -18,26 +18,25 @@
       var isInstagram = /instagram|fbav/.test(ua);
       
       if (isAndroid) {
-        if (isInstagram) {
-          // Force app open using Intent (breaks out of Instagram WebView)
-          window.location = "intent://blinkit.com/prn/x/prid/692040#Intent;scheme=https;package=com.grofers.customerapp;end;";
-        } else {
-          // Regular redirect for other browsers
-          window.location = productUrl;
-        }
+        // Use Intent URI with explicit flags to bypass Instagram dialog
+        var intentUrl = "intent://blinkit.com/prn/x/prid/692040#Intent;scheme=https;package=com.grofers.customerapp;launchFlags=0x10000000;end;";
         
-        // Fallback after 2 seconds
+        // Try to open immediately
+        window.location = intentUrl;
+        
+        // If Intent doesn't work, fallback to product URL after 1 second
         setTimeout(function() {
           if (!appOpened) {
             window.location = productUrl;
           }
-        }, 2000);
+        }, 1000);
       } else {
         // iOS/Desktop
         window.location = productUrl;
       }
     }
     
+    // Open immediately without delay
     openInApp();
   </script>
 </head>
